@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "PHP Locator",
+  "version": "1.0.0",
+  "description": "Click on any PHP component to open its source code in your IDE. Zero configuration required!",
+  
+  "permissions": [
+    "activeTab"
+  ],
+  
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "PHP Locator - Click to Code"
+  },
+  
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}
