@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Locator - Click to Code for PHP</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #ffffff;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            opacity: 0.95;
+        }
+        
+        .hero-description {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            opacity: 0.9;
+        }
+        
+        .cta-section {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #ff6b6b;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .demo-hint {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section {
+            padding: 80px 20px;
+        }
+        
+        .section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+        
+        .features {
+            background: #f8f9fa;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .how-it-works {
+            background: white;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 2rem;
+        }
+        
+        .step {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+        
+        .step h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .browsers {
+            background: #f8f9fa;
+            text-align: center;
+        }
+        
+        .browser-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .browser-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .browser-icon:hover {
+            transform: translateY(-3px);
+        }
+        
+        .browser-icon i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .chrome { color: #4285f4; }
+        .firefox { color: #ff9500; }
+        .edge { color: #0078d4; }
+        .safari { color: #006cff; }
+        .opera { color: #ff1b2d; }
+        
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Fira Code', monospace;
+            overflow-x: auto;
+        }
+        
+        .setup-section {
+            background: white;
+            padding: 80px 20px;
+        }
+        
+        .setup-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 12px 24px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .logo { font-size: 2.5rem; }
+            .tagline { font-size: 1.2rem; }
+            .hero-description { font-size: 1rem; }
+            .cta-section { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="logo">🚀 PHP Locator</div>
+        <div class="tagline">Click on a component to go to its code</div>
+        <div class="hero-description">
+            Click on any component in your PHP application to open its code in your IDE.<br>
+            Just like LocatorJS, but for PHP. Zero configuration required!
+        </div>
+        
+        <div class="cta-section">
+            <a href="#extension" class="btn btn-primary">
+                <i class="fas fa-download"></i>
+                Get Extension
+            </a>
+            <a href="https://github.com/phplocator/phplocator" class="btn btn-secondary">
+                <i class="fab fa-github"></i>
+                GitHub
+            </a>
+        </div>
+        
+        <div class="demo-hint">
+            <strong>Try it here and now:</strong><br>
+            Hold Alt and move with the cursor around this page<br>
+            <small>or get Extension right away ↑</small>
+        </div>
+    </section>
+
+    <section class="section features">
+        <div class="container">
+            <h2>Speed up your PHP development</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Find anything faster</h3>
+                    <p>Don't know every corner of your codebase? Find any component faster than ever. Click on any element to jump to its source code instantly.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Speed up your workflow</h3>
+                    <p>Click on component ➡️ change code ➡️ check changes ➡️ and repeat by clicking on another component 🔁</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Zero Configuration</h3>
+                    <p>Works out of the box! Just include one PHP file or use the browser extension. No complex setup required.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section how-it-works">
+        <div class="container">
+            <h2>How it works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Include PHP Locator</h3>
+                    <p>Add one line to your PHP files or just use the browser extension</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Automatic Detection</h3>
+                    <p>PHP Locator automatically maps HTML elements to their source code lines</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Click to Code</h3>
+                    <p>Hold Alt, hover over elements, and click to open exact code in VS Code</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="extension" class="section browsers">
+        <div class="container">
+            <h2>Get browser extension</h2>
+            <p>Works with all major browsers. Download the extension and start clicking to code!</p>
+            <div class="browser-icons">
+                <div class="browser-icon">
+                    <i class="fab fa-chrome chrome"></i>
+                    <span>Chrome</span>
+                </div>
+                <div class="browser-icon">
+                    <i class="fab fa-firefox firefox"></i>
+                    <span>Firefox</span>
+                </div>
+                <div class="browser-icon">
+                    <i class="fab fa-edge edge"></i>
+                    <span>Edge</span>
+                </div>
+                <div class="browser-icon">
+                    <i class="fab fa-safari safari"></i>
+                    <span>Safari</span>
+                </div>
+                <div class="browser-icon">
+                    <i class="fab fa-opera opera"></i>
+                    <span>Opera</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="setup-section">
+        <div class="container">
+            <h2>Setup</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">Choose your preferred setup method</p>
+            
+            <div class="setup-tabs">
+                <div class="tab-btn active" data-tab="browser">Browser Extension Only</div>
+                <div class="tab-btn" data-tab="php">PHP Integration</div>
+                <div class="tab-btn" data-tab="frameworks">Frameworks</div>
+            </div>
+            
+            <div class="tab-content active" id="browser">
+                <h3>🌐 Browser Extension (Recommended)</h3>
+                <p>The easiest way to get started. Works with any existing PHP application!</p>
+                <ol>
+                    <li>Download the PHP Locator extension</li>
+                    <li>Install it in your browser</li>
+                    <li>Visit any PHP page</li>
+                    <li>Hold Alt + hover + click on elements</li>
+                </ol>
+                <div class="code-block">
+# No code changes needed!
+# Extension auto-detects PHP pages and provides click-to-code functionality
+                </div>
+            </div>
+            
+            <div class="tab-content" id="php">
+                <h3>🚀 PHP Integration (Enhanced)</h3>
+                <p>For better accuracy and more features, include PHP Locator in your project:</p>
+                <div class="code-block">&lt;?php
+// Just add this ONE line at the top of your PHP files:
+require_once 'phplocator.php';
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+    &lt;h1&gt;Your existing HTML&lt;/h1&gt;
+    &lt;p&gt;No changes needed!&lt;/p&gt;
+    &lt;button&gt;Click me&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+                <p>That's it! PHP Locator automatically injects data attributes for precise click-to-code functionality.</p>
+            </div>
+            
+            <div class="tab-content" id="frameworks">
+                <h3>🛠 Framework Integration</h3>
+                <p>PHP Locator works with all popular PHP frameworks:</p>
+                <ul style="margin: 20px 0;">
+                    <li>✅ <strong>Laravel</strong> - Include in your main layout</li>
+                    <li>✅ <strong>Symfony</strong> - Add to your base template</li>
+                    <li>✅ <strong>CodeIgniter</strong> - Include in your views</li>
+                    <li>✅ <strong>WordPress</strong> - Add to functions.php</li>
+                    <li>✅ <strong>Vanilla PHP</strong> - Works out of the box</li>
+                </ul>
+                <div class="code-block">// WordPress example (functions.php)
+if (WP_DEBUG) {
+    require_once get_template_directory() . '/phplocator.php';
+}
+
+// Laravel example (in blade layout)
+@if(config('app.debug'))
+    @php require_once resource_path('phplocator.php'); @endphp
+@endif</div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 PHP Locator — Inspired by <a href="https://locatorjs.com">LocatorJS</a></p>
+            <p>
+                <a href="https://github.com/phplocator/phplocator">GitHub</a> |
+                <a href="https://github.com/phplocator/phplocator/issues">Issues</a> |
+                <a href="#extension">Get Extension</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all tabs and content
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

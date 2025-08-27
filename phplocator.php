@@ -9,6 +9,7 @@ class PHPLocator {
     private static $instance = null;
     private $sourceFile = null;
     private $sourceLines = [];
+    private $initialized = false;
     
     public static function init() {
         if (self::$instance === null) {
@@ -18,41 +19,80 @@ class PHPLocator {
     }
     
     private function __construct() {
-        // Get the main PHP file (the one that includes this script)
-        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-        
-        // Find the file that included phplocator.php (not phplocator.php itself)
-        $this->sourceFile = null;
-        foreach ($backtrace as $trace) {
-            if (isset($trace['file']) && basename($trace['file']) !== 'phplocator.php') {
-                $this->sourceFile = $trace['file'];
-                break;
-            }
+        // Start output buffering immediately
+        if (ob_get_level() === 0) {
+            ob_start();
         }
-        
-        // Fallback to the last file in backtrace if not found
-        if ($this->sourceFile === null) {
-            $this->sourceFile = $backtrace[count($backtrace) - 1]['file'];
-        }
-        
-        // Read source code
-        if (file_exists($this->sourceFile)) {
-            $this->sourceLines = file($this->sourceFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        }
-        
-        // Start output buffering to process HTML
-        ob_start();
         register_shutdown_function([$this, 'processOutput']);
     }
     
+    private function findSourceFile() {
+        if ($this->initialized) {
+            return;
+        }
+        
+        // Get the current backtrace to find the main PHP file
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        
+        // Look for the file that's actually being executed (not vendor/autoload files)
+        $this->sourceFile = null;
+        foreach ($backtrace as $trace) {
+            if (isset($trace['file'])) {
+                $file = $trace['file'];
+                
+                // Skip Composer vendor files and phplocator itself
+                if (basename($file) !== 'phplocator.php' && 
+                    strpos($file, 'vendor/') === false &&
+                    strpos($file, 'vendor\\') === false) {
+                    $this->sourceFile = $file;
+                    break;
+                }
+            }
+        }
+        
+        // If we couldn't find a good file from backtrace, use the main script
+        if ($this->sourceFile === null && isset($_SERVER['SCRIPT_FILENAME'])) {
+            $this->sourceFile = $_SERVER['SCRIPT_FILENAME'];
+        }
+        
+        // Last resort - use the first non-vendor file in backtrace
+        if ($this->sourceFile === null) {
+            foreach ($backtrace as $trace) {
+                if (isset($trace['file']) && 
+                    strpos($trace['file'], 'vendor/') === false &&
+                    strpos($trace['file'], 'vendor\\') === false) {
+                    $this->sourceFile = $trace['file'];
+                    break;
+                }
+            }
+        }
+        
+        // Read source code
+        if ($this->sourceFile && file_exists($this->sourceFile)) {
+            $this->sourceLines = file($this->sourceFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        }
+        
+        $this->initialized = true;
+    }
+    
     public function processOutput() {
-        $html = ob_get_contents();
+        // Initialize file detection if not done yet
+        $this->findSourceFile();
+        
+        // Get buffered content
+        $html = '';
         if (ob_get_level() > 0) {
-            ob_clean();
+            $html = ob_get_contents();
+            ob_end_clean();
+        }
+        
+        // Only process if we actually have HTML content
+        if (empty($html)) {
+            return;
         }
         
         // Add debug comment to show which file is being tracked
-        $debugComment = "<!-- PHP Locator: Tracking file: " . $this->sourceFile . " -->\n";
+        $debugComment = "<!-- PHP Locator: Tracking file: " . ($this->sourceFile ?: 'unknown') . " -->\n";
         
         // Process HTML and inject data attributes
         $processedHtml = $this->injectDataAttributes($html);
