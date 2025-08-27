@@ -1,0 +1,24 @@
+{
+  "name": "zemmelmootez/phplocator",
+  "description": "Click-to-code for PHP: automatic source mapping for browser extensions like LocatorJS",
+  "type": "library",
+  "license": "MIT",
+  "keywords": ["php", "debugging", "click-to-code", "vscode", "developer-tools"],
+  "homepage": "https://github.com/zemmelmootez/phplocator",
+  "autoload": {
+    "files": ["phplocator.php"]
+  },
+  "authors": [
+    {
+      "name": "Mootez Zemmel",
+      "email": "zemmel.mootez@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0"
+  },
+  "support": {
+    "issues": "https://github.com/zemmelmootez/phplocator/issues",
+    "source": "https://github.com/zemmelmootez/phplocator"
+  }
+}
