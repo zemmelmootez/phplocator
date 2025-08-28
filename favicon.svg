@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32" height="32" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Modern gradient with PHP colors -->
+    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8892BF;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#6181B6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4F5B93;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Highlight gradient -->
+    <linearGradient id="highlight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:0.1" />
+    </linearGradient>
+    
+    <!-- Shadow filter -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+    
+    <!-- Inner glow -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#FFF" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  
+  <!-- Main background circle with shadow -->
+  <circle cx="64" cy="64" r="56" fill="url(#mainGradient)" filter="url(#shadow)"/>
+  
+  <!-- Highlight overlay -->
+  <circle cx="64" cy="64" r="56" fill="url(#highlight)"/>
+  
+  <!-- PHP logo-inspired design -->
+  <g transform="translate(64, 40)">
+    <!-- PHP background -->
+    <ellipse cx="0" cy="0" rx="35" ry="12" fill="rgba(255,255,255,0.95)" rx="35" ry="12"/>
+    <!-- PHP text -->
+    <text x="0" y="4" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" 
+          text-anchor="middle" fill="#4F5B93">PHP</text>
+  </g>
+  
+  <!-- Target/crosshair design -->
+  <g transform="translate(64, 82)">
+    <!-- Outer target rings -->
+    <circle r="20" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
+    <circle r="14" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2"/>
+    <circle r="8" fill="none" stroke="rgba(255,255,255,1)" stroke-width="2"/>
+    
+    <!-- Center dot -->
+    <circle r="3" fill="white" filter="url(#glow)"/>
+    
+    <!-- Crosshair lines -->
+    <g stroke="white" stroke-width="2.5" opacity="0.9">
+      <line x1="-26" y1="0" x2="-22" y2="0"/>
+      <line x1="22" y1="0" x2="26" y2="0"/>
+      <line x1="0" y1="-26" x2="0" y2="-22"/>
+      <line x1="0" y1="22" x2="0" y2="26"/>
+    </g>
+  </g>
+  
+  <!-- Click cursor indicator -->
+  <g transform="translate(90, 60)" fill="white" filter="url(#glow)">
+    <path d="M0,0 L10,8 L6,9 L8,14 L6,15 L4,10 L0,11 Z"/>
+  </g>
+  
+  <!-- Code angle brackets -->
+  <g stroke="white" stroke-width="3" fill="none" opacity="0.8" stroke-linecap="round">
+    <path d="M25,25 L18,32 L25,39"/>
+    <path d="M103,25 L110,32 L103,39"/>
+  </g>
+  
+  <!-- Small decorative elements -->
+  <g fill="rgba(255,255,255,0.6)">
+    <circle cx="32" cy="96" r="2"/>
+    <circle cx="96" cy="32" r="2"/>
+    <circle cx="25" cy="64" r="1.5"/>
+    <circle cx="103" cy="64" r="1.5"/>
+  </g>
+</svg>

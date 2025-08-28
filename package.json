@@ -1,0 +1,26 @@
+{
+  "name": "phplocator-website",
+  "version": "1.0.0",
+  "description": "Marketing website for PHPLocator - Click to Code for PHP",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve .",
+    "dev": "serve . -l 3000"
+  },
+  "keywords": [
+    "php",
+    "developer-tools",
+    "vs-code",
+    "click-to-code",
+    "browser-extension"
+  ],
+  "author": "zemmel.mootez",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zemmelmootez/phplocator"
+  }
+}
