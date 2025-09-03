@@ -1,12 +1,8 @@
 {
   "manifest_version": 3,
   "name": "PHP Locator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Click on any PHP component to open its source code in your IDE. Zero configuration required!",
-  
-  "permissions": [
-    "activeTab"
-  ],
   
   "content_scripts": [
     {
