@@ -227,6 +227,24 @@
         .hero-text {
             animation: fadeInUp 0.8s ease-out;
         }
+        
+        .live-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
 
         .hero-text h1 {
             font-size: 4rem;
@@ -922,7 +940,7 @@
                 <li><a href="#how-it-works">How It Works</a></li>
                 <li><a href="#installation">Installation</a></li>
                 <li><a href="https://github.com/zemmelmootez/phplocator" target="_blank">GitHub</a></li>
-                <li><a href="#installation" class="download-btn">Download Free</a></li>
+                <li><a href="https://chrome.google.com/webstore/detail/php-locator/bnhcmehnfejdabgfjlpndjpahkjfhchb" target="_blank" class="download-btn">Install Extension</a></li>
                 <li><a href="https://www.buymeacoffee.com/zemmelmoot7" target="_blank" class="coffee-btn">☕ Buy me a Coffee</a></li>
             </ul>
         </nav>
@@ -932,6 +950,7 @@
     <section class="hero">
         <div class="hero-content">
             <div class="hero-text">
+                <div class="live-badge">🚀 NOW LIVE ON CHROME WEB STORE!</div>
                 <h1>PHPLocator</h1>
                 <div class="tagline">Click to Code for PHP</div>
                 <div class="description">
@@ -939,9 +958,9 @@
                     Zero configuration, universal compatibility, instant productivity boost.
                 </div>
                 <div class="cta-buttons">
-                    <a href="#installation" class="btn btn-primary">
-                        <i class="fas fa-download"></i>
-                        Get Started Free
+                    <a href="https://chrome.google.com/webstore/detail/php-locator/bnhcmehnfejdabgfjlpndjpahkjfhchb" target="_blank" class="btn btn-primary">
+                        <i class="fab fa-chrome"></i>
+                        Install from Chrome Web Store
                     </a>
                     <a href="https://github.com/zemmelmootez/phplocator" class="btn btn-secondary">
                         <i class="fab fa-github"></i>
@@ -1044,7 +1063,7 @@
                         <div class="step-content">
                             <h4>Install the PHP Locator extension</h4>
                             <p>Get it from the Chrome Web Store</p>
-                            <a href="https://chrome.google.com/webstore" class="btn btn-primary" target="_blank">
+                            <a href="https://chrome.google.com/webstore/detail/php-locator/bnhcmehnfejdabgfjlpndjpahkjfhchb" class="btn btn-primary" target="_blank">
                                 <i class="fab fa-chrome"></i>
                                 Install Extension
                             </a>

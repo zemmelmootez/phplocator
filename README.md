@@ -31,7 +31,7 @@ PHP Locator brings **click-to-code** functionality to PHP development. Inspired 
 ### Step 1: Browser Extension
 
 **Chrome/Edge/Brave/Opera:**
-- [Install from Chrome Web Store](CHROME_EXTENSION_LINK_PLACEHOLDER) *(Coming Soon)*
+- [🚀 Install from Chrome Web Store](https://chrome.google.com/webstore/detail/php-locator/bnhcmehnfejdabgfjlpndjpahkjfhchb) ✅ **NOW LIVE!**
 
 **Manual Installation:**
 1. Download the [latest release](https://github.com/zemmelmootez/phplocator/releases)
