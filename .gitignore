@@ -1,1 +1,33 @@
+# Vercel deployment
 .vercel
+
+# Development files
+*.tmp
+*.temp
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Marketing/promotional materials (keep repo focused on code)
+*-promo-*
+marketing/
+promotional-*
+
+# Temporary build files
+build/
+dist/
+
+# Package managers
+node_modules/
+vendor/
+
+# Environment files
+.env
+.env.local
