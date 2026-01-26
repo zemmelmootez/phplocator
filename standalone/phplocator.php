@@ -131,7 +131,9 @@ class PHPLocator {
             // Skip PHP code lines with optimized combined check
             if (strpos($originalLine, '<?') !== false || 
                 strpos($originalLine, '?>') !== false ||
-                (isset($originalLine[0]) && ($originalLine[0] === '/' || $originalLine[0] === '*'))) {
+                (isset($originalLine[0]) && ($originalLine[0] === '/' || $originalLine[0] === '*')) ||
+                strpos($originalLine, '//') !== false ||
+                strpos($originalLine, '/*') !== false) {
                 continue;
             }
             
