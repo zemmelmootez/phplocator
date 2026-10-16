@@ -9,7 +9,12 @@ class PHPLocator {
     private static $instance = null;
     private $sourceFile = null;
     private $sourceLines = [];
+    private $sourceLinesCleaned = [];
+    private $escapedSourceFile = null;
     private $initialized = false;
+    
+    // Pre-compiled regex pattern for better performance
+    private const TAG_REGEX = '/<([a-zA-Z][a-zA-Z0-9]*)\b([^>]*?)(\s*\/?)>/m';
     
     public static function init() {
         if (self::$instance === null) {
@@ -34,7 +39,7 @@ class PHPLocator {
         // Get the current backtrace to find the main PHP file
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         
-        // Look for the file that's actually being executed (not vendor/autoload files)
+        // Look for the file that's actually being executed (consolidated loop)
         $this->sourceFile = null;
         foreach ($backtrace as $trace) {
             if (isset($trace['file'])) {
@@ -42,8 +47,8 @@ class PHPLocator {
                 
                 // Skip Composer vendor files and phplocator itself
                 if (basename($file) !== 'phplocator.php' && 
-                    strpos($file, 'vendor/') === false &&
-                    strpos($file, 'vendor\\') === false) {
+                    strpos($file, '/vendor/') === false &&
+                    strpos($file, '\\vendor\\') === false) {
                     $this->sourceFile = $file;
                     break;
                 }
@@ -55,21 +60,17 @@ class PHPLocator {
             $this->sourceFile = $_SERVER['SCRIPT_FILENAME'];
         }
         
-        // Last resort - use the first non-vendor file in backtrace
-        if ($this->sourceFile === null) {
-            foreach ($backtrace as $trace) {
-                if (isset($trace['file']) && 
-                    strpos($trace['file'], 'vendor/') === false &&
-                    strpos($trace['file'], 'vendor\\') === false) {
-                    $this->sourceFile = $trace['file'];
-                    break;
-                }
-            }
-        }
-        
-        // Read source code
+        // Read source code and pre-process for performance
         if ($this->sourceFile && file_exists($this->sourceFile)) {
             $this->sourceLines = file($this->sourceFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            
+            // Pre-clean all source lines once for performance (avoid regex in hot loop)
+            $this->sourceLinesCleaned = array_map(function($line) {
+                return preg_replace('/\s+/', ' ', trim($line));
+            }, $this->sourceLines);
+            
+            // Cache escaped file path for performance (avoid repeated htmlspecialchars)
+            $this->escapedSourceFile = htmlspecialchars(str_replace('\\', '/', $this->sourceFile));
         }
         
         $this->initialized = true;
@@ -108,9 +109,9 @@ class PHPLocator {
     }
     
     private function injectDataAttributes($html) {
-        // Match HTML opening tags
+        // Match HTML opening tags using pre-compiled pattern
         return preg_replace_callback(
-            '/<([a-zA-Z][a-zA-Z0-9]*)\b([^>]*?)(\s*\/?)>/m',
+            self::TAG_REGEX,
             [$this, 'addDataAttributes'],
             $html
         );
@@ -135,9 +136,9 @@ class PHPLocator {
         $lineNumber = $this->findLineNumber($matches[0], $tagName);
         
         if ($lineNumber !== null) {
-            $file = str_replace('\\', '/', $this->sourceFile);
+            // Use cached escaped file path for better performance
             $newAttributes = $attributes . 
-                ' data-php-file="' . htmlspecialchars($file) . '"' .
+                ' data-php-file="' . $this->escapedSourceFile . '"' .
                 ' data-php-line="' . $lineNumber . '"';
             
             return '<' . $tagName . $newAttributes . $selfClosing . '>';
@@ -147,20 +148,20 @@ class PHPLocator {
     }
     
     private function findLineNumber($fullTag, $tagName) {
-        // Clean the tag for better matching
+        // Clean the tag for better matching (only once)
         $cleanTag = preg_replace('/\s+/', ' ', trim($fullTag));
         $tagPattern = strtolower($tagName);
         
-        foreach ($this->sourceLines as $lineNum => $line) {
-            $cleanLine = preg_replace('/\s+/', ' ', trim($line));
+        // Use pre-cleaned source lines for better performance (avoids N regex calls in loop)
+        foreach ($this->sourceLinesCleaned as $lineNum => $cleanLine) {
+            $originalLine = $this->sourceLines[$lineNum];
             
-            // Skip PHP code lines
-            if (strpos($line, '<?php') !== false || 
-                strpos($line, '<?=') !== false ||
-                strpos($line, '?>') !== false ||
-                strpos($line, '//') === 0 ||
-                strpos($line, '/*') !== false ||
-                strpos($line, '*') === 0) {
+            // Skip PHP code lines with optimized combined check
+            if (strpos($originalLine, '<?') !== false || 
+                strpos($originalLine, '?>') !== false ||
+                (isset($originalLine[0]) && ($originalLine[0] === '/' || $originalLine[0] === '*')) ||
+                strpos($originalLine, '//') !== false ||
+                strpos($originalLine, '/*') !== false) {
                 continue;
             }
             
